@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cdevents-visualiser
+  name: cdevents-visualiser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cdevents-visualiser
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: cdevents-visualiser
+    spec:
+      containers:
+      - image: localhost:5000/cdevents/visualiser:latest
+        name: visualiser
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cdevents-visualiser
+  name: cdevents-visualiser-service
+spec:
+  ports:
+  - name: 8099-8099
+    port: 8099
+    protocol: TCP
+    targetPort: 8099
+  selector:
+    app: cdevents-visualiser
+  type: ClusterIP
+status:
+  loadBalancer: {}
