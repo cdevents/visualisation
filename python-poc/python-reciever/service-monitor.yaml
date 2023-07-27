@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cdevents-reciever
+spec:
+  jobLabel: cdevents-reciever
+  selector:
+    matchLabels:
+      app: cdeventreciever
+  namespaceSelector:
+    matchNames:
+    - default
+  endpoints:
+  - port: cdeventrecieverport
+    interval: 15s

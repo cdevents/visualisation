@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cdevent-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: cdevent-storage
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: cdevent-storage-rcv
+          image: arangoclient:latest
+          env:
+            - name: ARANGOHOME
+              value: "http://localhost:8529"
+          imagePullPolicy: IfNotPresent
+        - name: arangodb
+          image: arangodb:latest
+          env:
+            - name: ARANGO_ROOT_PASSWORD
+              value: "passwd"
+          imagePullPolicy: IfNotPresent          
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: cdevent-storage
+spec:
+  selector:
+    app: cdevent-storage
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: cdevent-storage-be
+spec:
+  selector:
+    app: cdevent-storage
+  ports:
+    - protocol: TCP
+      port: 8529
+      targetPort: 8529      

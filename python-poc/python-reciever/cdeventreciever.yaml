@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cdeventreciever
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: cdeventreciever
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: event-display
+          image: cdeventreciever-python:latest
+          imagePullPolicy: IfNotPresent
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: cdeventreciever
+  labels:
+    app: cdeventreciever
+spec:
+  selector:
+    app: cdeventreciever
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: cdeventrecieverport
