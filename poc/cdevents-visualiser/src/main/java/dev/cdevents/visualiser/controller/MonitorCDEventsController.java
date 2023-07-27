@@ -4,11 +4,14 @@ import dev.cdevents.visualiser.service.MonitorCDEvents;
 import io.cloudevents.CloudEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("/cdevents")
+@RequestMapping(value = "/cdevents")
 @RestController
 public class MonitorCDEventsController {
 
@@ -20,7 +23,7 @@ public class MonitorCDEventsController {
     }
 
 
-    @PostMapping("/visualiser")
+    @RequestMapping(value = "/visualiser", method = RequestMethod.POST)
     public ResponseEntity<Void> receiveCDEvent(@RequestBody CloudEvent cdEvent){
         for (MonitorCDEvents monitorCDEvents : monitorImplementations) {
             monitorCDEvents.processCDEvent(cdEvent);
