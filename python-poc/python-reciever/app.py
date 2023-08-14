@@ -15,13 +15,12 @@ import sys
 
 counters = {}
 
-def create_counter(json_data_str):
+def create_counter(json_data):
     # Extract relevant fields from JSON data and write them to the log file
-    log_entry = f"CD_EVent: {json_data_str}"
+    log_entry = f"CD_EVent: {json_data}"
     logging.info(log_entry)
-    json_data = json.loads(json_data_str)
     counter = None
-    metricname = json_data["context"]["type"].replace(".","_")
+    metricname = json_data["type"].replace(".","_")
     if metricname in counters:
         counter = counters[metricname]
     else:
@@ -30,7 +29,7 @@ def create_counter(json_data_str):
         elif metricname == "dev.cdevents.testsuite.finished.0.1.0".replace(".","_"):
             counter = Counter(metricname, 'Counter for' + str(json_data["context"]["type"]),["source","outcome"])
         else:
-            counter = Counter(metricname, 'Counter for' + str(json_data["context"]["type"]))
+            counter = Counter(metricname, 'Counter for' + str(json_data["type"]))
         counters[metricname] = counter
 
     if metricname == "dev.cdevents.change.merged.0.1.0".replace(".","_"):
@@ -61,7 +60,9 @@ def hello_world():
     #    f" EVENT {event}"
     #    f" request.get_data() {request.get_data()}"
     #)
-    create_counter(request.get_data())
+    eventattr=event.get_attributes()
+    eventdict = dict(eventattr)
+    create_counter(eventdict)
     return "", 204
     
 #    target = os.environ.get('TARGET', 'World')
