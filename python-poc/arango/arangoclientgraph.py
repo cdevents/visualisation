@@ -79,9 +79,9 @@ class Arangoclientgraph:
         
 
         # Create an edge between two vertices (essentially the same as insert).
-        if "links" in json_data["customData"]:
+        if "linktarget" in json_data:
             if not self.cdevents.has_edge('links/'+str(json_data["_key"])):              
-                self.links.link('cdevent/'+str(json_data["_key"]), 'cdevent/'+str(json_data["customData"]["links"]["target"]), data={'linktype': 'x','_key': json_data["_key"]})
+                self.links.link('cdevent/'+str(json_data["_key"]), 'cdevent/'+str(json_data["linktarget"]), data={'linktype': 'x','_key': json_data["_key"]})
 
     def printoutput(self,id):
         # List edges going in/out of a vertex.

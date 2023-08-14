@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cdeventreciever
+  name: cdeventreciever-python
 spec:
   replicas: 1
   selector:
     matchLabels: &labels
-      app: cdeventreciever
+      app: cdeventreciever-python
   template:
     metadata:
       labels: *labels
@@ -21,12 +21,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: cdeventreciever
+  name: cdeventreciever-python
   labels:
-    app: cdeventreciever
+    app: cdeventreciever-python
 spec:
   selector:
-    app: cdeventreciever
+    app: cdeventreciever-python
   ports:
     - protocol: TCP
       port: 80

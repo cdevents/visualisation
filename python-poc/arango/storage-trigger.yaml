@@ -1,9 +1,9 @@
 apiVersion: eventing.knative.dev/v1
 kind: Trigger
 metadata:
-  name: stroage-trigger
+  name: arango-storage-trigger
 spec:
-  broker: default
+  broker: events-broker
 #  filter:
 #    expression: ce.type == "dev.cdevents.pipelinerun.queued.0.1.0"
   subscriber:

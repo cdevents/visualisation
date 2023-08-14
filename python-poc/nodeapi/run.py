@@ -61,8 +61,8 @@ def create_nodes(json_data):
                 node = {}
                 print (vertice)
                 node["id"] = vertice["_id"]
-                node["title"] = vertice["context"]["type"]
-                node["mainStat"] = vertice["context"]["source"]
+                node["title"] = vertice["type"]
+                node["mainStat"] = vertice["source"]
                 node["arc__failed"] = 0.1
                 node["arc__passed"] = 0.9
                 nodes.append(node)

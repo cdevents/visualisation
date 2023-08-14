@@ -6,7 +6,7 @@ spec:
   jobLabel: cdevents-reciever
   selector:
     matchLabels:
-      app: cdeventreciever
+      app: cdeventreciever-python
   namespaceSelector:
     matchNames:
     - default

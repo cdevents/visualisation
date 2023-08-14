@@ -12,7 +12,7 @@ import time
 
 
 app = Flask(__name__)
-
+linkTarget = None
 # @app.route('/',methods = ['POST', 'GET'])
 
 #@app.route('/', defaults={'path': ''},methods = ['POST', 'GET'])
@@ -20,20 +20,34 @@ app = Flask(__name__)
 def hello_world():
 #def hello_world(path):
     # create a CloudEvent
+    global linkTarget
     print(request)
     print(request.headers)
     print(request.get_data())
     event = from_http(request.headers, request.get_data())
     eventdict = {}
-    eventdict=json.loads(request.get_data())
+    eventdictdata=json.loads(request.get_data())
+    #eventdict=json.loads(str(event.get_attributes()))
+    eventattr=event.get_attributes()
+    print("eventattr")
+    print(eventattr)
+    eventdict = dict(eventattr)
+    print("eventdict")
+    print(eventdict)
+    if "pipelinerun.queued" not in eventdict["type"]:
+        print("Creating link for " + eventdict["type"])
+        eventdict['linktarget'] = linkTarget
 
+    linkTarget = eventdict["id"]
+
+    print("eventdict after")
+    print(eventdict)
     #arangoclientgraph.printoutput(eventdict["id"])    
     arangoclientgraph.insert_event(eventdict)
     # you can access cloudevent fields as seen below
     if "id" in eventdict:
         arangoclientgraph.printoutput(eventdict["id"])    
     
-
 #    target = os.environ.get('TARGET', 'World')
 #    print ("request data" +str(request.data))
 #    print ("request data" +str(request))
