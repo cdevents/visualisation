@@ -25,6 +25,7 @@ public class MonitorCDEventsController {
 
     @RequestMapping(value = "/visualiser", method = RequestMethod.POST)
     public ResponseEntity<Void> receiveCDEvent(@RequestBody CloudEvent cdEvent){
+	    System.out.println("Received CDEvent " + cdEvent.getType());
         for (MonitorCDEvents monitorCDEvents : monitorImplementations) {
             monitorCDEvents.processCDEvent(cdEvent);
         }
