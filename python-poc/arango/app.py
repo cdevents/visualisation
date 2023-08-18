@@ -34,7 +34,7 @@ def hello_world():
     eventdict = dict(eventattr)
     print("eventdict")
     print(eventdict)
-    if "pipelinerun.queued" not in eventdict["type"]:
+    if "change.merged" not in eventdict["type"]:
         print("Creating link for " + eventdict["type"])
         eventdict['linktarget'] = linkTarget
 
