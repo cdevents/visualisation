@@ -2,6 +2,7 @@ package dev.cdevents.visualiser.service;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.spring.mvc.CloudEventHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpEntity;
@@ -15,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GrafanaVisiService implements MonitorCDEvents {
 
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    RestTemplate restTemplate;
     @Value("${visualisation.grafanavisi.endpoint}")
     private String grafanaVisiEndPoint;
 
@@ -26,8 +28,6 @@ public class GrafanaVisiService implements MonitorCDEvents {
         System.out.println("IN GrafanaVisiService received CDEvent");
         HttpEntity<CloudEvent> request = new HttpEntity<>(cdEvent);
 
-        restTemplate.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("Ce-Id", cdEvent.getId());
         headers.set("Ce-Specversion", cdEvent.getSpecVersion().name());
@@ -35,12 +35,14 @@ public class GrafanaVisiService implements MonitorCDEvents {
         headers.set("Ce-Type", cdEvent.getType());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(grafanaVisiEndPoint, cdEvent, String.class, headers);
-
+        RestTemplate restTemplate1 = new RestTemplate();
+        restTemplate1.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
+        ResponseEntity<String> response = restTemplate1.postForEntity(grafanaVisiEndPoint, cdEvent, String.class, headers);
         System.out.println("Response Status Code from Grafana endpoint: " + response.getStatusCode());
 
-        ResponseEntity<String> response1 = restTemplate.postForEntity(arangoDBEndPoint, cdEvent, String.class, headers);
-
+        RestTemplate restTemplate2 = new RestTemplate();
+        restTemplate2.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
+        ResponseEntity<String> response1 = restTemplate2.postForEntity(arangoDBEndPoint, cdEvent, String.class, headers);
         System.out.println("Response Status Code from Arango DB endpoint: " + response1.getStatusCode());
     }
 }

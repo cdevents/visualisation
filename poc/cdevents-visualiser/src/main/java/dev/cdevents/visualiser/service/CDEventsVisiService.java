@@ -21,8 +21,8 @@ import java.net.URI;
 @Service
 public class CDEventsVisiService implements MonitorCDEvents {
 
-   // @Autowired
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    RestTemplate restTemplate;
     @Value("${visualisation.cdeventsvisi.endpoint}")
     private String cdEventsVisiEndPoint;
 
@@ -30,8 +30,6 @@ public class CDEventsVisiService implements MonitorCDEvents {
     public void processCDEvent(CloudEvent cdEvent) {
         System.out.println("IN CDEventsVisiService received CDEvent and posted to " + cdEventsVisiEndPoint);
         HttpEntity<CloudEvent> request = new HttpEntity<>(cdEvent);
-
-        restTemplate.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Ce-Id", cdEvent.getId());
