@@ -21,12 +21,9 @@ public class GrafanaVisiService implements MonitorCDEvents {
     @Value("${visualisation.grafanavisi.endpoint}")
     private String grafanaVisiEndPoint;
 
-    @Value("${visualisation.grafanavisi.arangodb.endpoint}")
-    private String arangoDBEndPoint;
     @Override
     public void processCDEvent(CloudEvent cdEvent) {
         System.out.println("IN GrafanaVisiService received CDEvent");
-        HttpEntity<CloudEvent> request = new HttpEntity<>(cdEvent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Ce-Id", cdEvent.getId());
@@ -35,14 +32,8 @@ public class GrafanaVisiService implements MonitorCDEvents {
         headers.set("Ce-Type", cdEvent.getType());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        RestTemplate restTemplate1 = new RestTemplate();
-        restTemplate1.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
-        ResponseEntity<String> response = restTemplate1.postForEntity(grafanaVisiEndPoint, cdEvent, String.class, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(grafanaVisiEndPoint, cdEvent, String.class, headers);
         System.out.println("Response Status Code from Grafana endpoint: " + response.getStatusCode());
 
-        RestTemplate restTemplate2 = new RestTemplate();
-        restTemplate2.getMessageConverters().add(0, new CloudEventHttpMessageConverter());
-        ResponseEntity<String> response1 = restTemplate2.postForEntity(arangoDBEndPoint, cdEvent, String.class, headers);
-        System.out.println("Response Status Code from Arango DB endpoint: " + response1.getStatusCode());
     }
 }

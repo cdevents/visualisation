@@ -29,8 +29,6 @@ public class CDEventsVisiService implements MonitorCDEvents {
     @Override
     public void processCDEvent(CloudEvent cdEvent) {
         System.out.println("IN CDEventsVisiService received CDEvent and posted to " + cdEventsVisiEndPoint);
-        HttpEntity<CloudEvent> request = new HttpEntity<>(cdEvent);
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("Ce-Id", cdEvent.getId());
         headers.set("Ce-Specversion", cdEvent.getSpecVersion().name());
@@ -40,7 +38,7 @@ public class CDEventsVisiService implements MonitorCDEvents {
 
         ResponseEntity<String> response = restTemplate.postForEntity(cdEventsVisiEndPoint, cdEvent, String.class, headers);
 
-        System.out.println("Response Status Code: " + response.getStatusCode());
+        System.out.println("Response Status Code from CDEvents Visi endpoint: " + response.getStatusCode());
     }
 
 }
