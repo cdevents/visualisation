@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping(value = "/cdevents")
 @RestController
+@RequestMapping(value = "/cdevents")
 public class MonitorCDEventsController {
 
     private List<MonitorCDEvents> monitorImplementations;
@@ -25,6 +25,7 @@ public class MonitorCDEventsController {
 
     @RequestMapping(value = "/visualiser", method = RequestMethod.POST)
     public ResponseEntity<Void> receiveCDEvent(@RequestBody CloudEvent cdEvent){
+        System.out.println("Received CDEvent " + cdEvent.getType());
         for (MonitorCDEvents monitorCDEvents : monitorImplementations) {
             monitorCDEvents.processCDEvent(cdEvent);
         }
