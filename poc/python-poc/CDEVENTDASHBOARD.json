@@ -1,0 +1,356 @@
+{
+    "__inputs": [
+      {
+        "name": "DS_NODE_GRAPH API",
+        "label": "Node Graph API",
+        "description": "",
+        "type": "datasource",
+        "pluginId": "hamedkarbasi93-nodegraphapi-datasource",
+        "pluginName": "Node Graph API"
+      },
+      {
+        "name": "DS_PROMETHEUS",
+        "label": "prometheus",
+        "description": "",
+        "type": "datasource",
+        "pluginId": "prometheus",
+        "pluginName": "Prometheus"
+      },
+      {
+        "name": "DS_LOKI",
+        "label": "Loki",
+        "description": "",
+        "type": "datasource",
+        "pluginId": "loki",
+        "pluginName": "Loki"
+      }
+    ],
+    "__elements": {},
+    "__requires": [
+      {
+        "type": "grafana",
+        "id": "grafana",
+        "name": "Grafana",
+        "version": "9.5.3"
+      },
+      {
+        "type": "datasource",
+        "id": "hamedkarbasi93-nodegraphapi-datasource",
+        "name": "Node Graph API",
+        "version": "1.0.1"
+      },
+      {
+        "type": "datasource",
+        "id": "loki",
+        "name": "Loki",
+        "version": "1.0.0"
+      },
+      {
+        "type": "panel",
+        "id": "nodeGraph",
+        "name": "Node Graph",
+        "version": ""
+      },
+      {
+        "type": "datasource",
+        "id": "prometheus",
+        "name": "Prometheus",
+        "version": "1.0.0"
+      },
+      {
+        "type": "panel",
+        "id": "table",
+        "name": "Table",
+        "version": ""
+      },
+      {
+        "type": "panel",
+        "id": "timeseries",
+        "name": "Time series",
+        "version": ""
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "hamedkarbasi93-nodegraphapi-datasource",
+          "uid": "${DS_NODE_GRAPH API}"
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "targets": [
+          {
+            "datasource": {
+              "type": "hamedkarbasi93-nodegraphapi-datasource",
+              "uid": "${DS_NODE_GRAPH API}"
+            },
+            "queryText": "aaa=${CDEVENTID}",
+            "refId": "A"
+          }
+        ],
+        "title": "New Panel",
+        "type": "nodeGraph"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DS_PROMETHEUS}"
+            },
+            "editorMode": "builder",
+            "expr": "dev_cdevents_change_merged_0_1_0_total{service=\"cdeventreciever\"}",
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "labels"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 104
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 193
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Line"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 1388
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 3,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.5.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "${DS_LOKI}"
+            },
+            "editorMode": "builder",
+            "expr": "{app=\"cdeventreciever\"} |= ``",
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "New Panel",
+        "type": "table"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {},
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "definition": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "CdEventId",
+          "multi": false,
+          "name": "CDEVENTID",
+          "options": [],
+          "query": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "CDEVENTS",
+    "uid": "f65f8b2e-1d54-4c4c-b55b-37b7ff17de09",
+    "version": 3,
+    "weekStart": ""
+  }

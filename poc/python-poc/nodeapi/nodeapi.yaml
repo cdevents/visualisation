@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: nodeapi
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: nodeapi
+          image: nodeapi:latest
+          env:
+            - name: ARANGOHOME
+              value: "http://cdevent-storage-be.default:8529"
+          imagePullPolicy: IfNotPresent
+         
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodeapi
+spec:
+  selector:
+    app: nodeapi
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

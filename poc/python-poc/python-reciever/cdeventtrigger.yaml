@@ -1,0 +1,11 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: cdevent-prometheus-receiver
+spec:
+  broker: events-broker
+  subscriber:
+    ref:
+     apiVersion: v1
+     kind: Service
+     name: cdeventreciever-python

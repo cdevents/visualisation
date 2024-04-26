@@ -1,0 +1,13 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: arango-storage-trigger
+spec:
+  broker: events-broker
+#  filter:
+#    expression: ce.type == "dev.cdevents.pipelinerun.queued.0.1.0"
+  subscriber:
+    ref:
+     apiVersion: v1
+     kind: Service
+     name: cdevent-storage
